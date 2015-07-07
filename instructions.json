@@ -1,0 +1,24 @@
+{
+	"main_script": "disaster.js",
+	"icon": "disaster.webp",
+	"width":  800,
+	"height": 600,
+	"resize": "free",
+	"dependencies": [
+        "scripts/d3.v3.min.js",
+        "scripts/leaflet.js"
+        			],
+	"load": {
+		"mapType":   "hybrid",
+		"zoomLevel": 8,
+		"layer":     {"w": false, "t": false}
+	},
+	"title": "disaster",
+	"version": "1.1.0",
+	"description": "Map visualization using Google Maps Javascript API V3",
+	"keywords": [ "maps", "google", "geo" ],
+	"author": "Luc Renambot <renambot@gmail.com>",
+	"license": "SAGE2-Software-License"
+}
+
+
