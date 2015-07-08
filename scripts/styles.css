@@ -8,8 +8,20 @@
 #list {margin-left:25px;
     color: rgba(255,255,255,0.8);
     font-family: "Ubuntu", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
     list-style-type:none;
+    padding-bottom: 75px;
 }
+#list_sub {margin-left:25px;
+    color: rgba(255,255,255,0.8);
+    font-family: "Ubuntu", sans-serif;
+    font-size: 15px;
+    list-style-type: circle;
+    padding-bottom: 5px;
+    font-weight: normal;
+}
+
 
     
     

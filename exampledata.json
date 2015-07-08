@@ -1,7 +1,8 @@
 {"objects":[
-{"circle":{"coordinates":[-41.28,174.77]}},
-{"circle":{"coordinates":[-41.29,174.76]}},
-{"circle":{"coordinates":[-41.30,174.79]}},
-{"circle":{"coordinates":[-41.27,174.80]}},
-{"circle":{"coordinates":[-41.29,174.78]}}
+{"circle":{"coordinates":[34.704,135.52], "name" :  "fire", "radius": "15"}},
+{"circle":{"coordinates":[34.68,135.476], "name": "storm", "radius": "30"}},
+{"circle":{"coordinates":[34.704,135.45], "name" : "flood", "radius": "25"}},
+{"circle":{"coordinates":[34.73,135.40], "name" : "fire", "radius":"5"}},
+{"circle":{"coordinates":[34.65,135.54], "name" : "earthquake", "radius":"20"}},
+{"circle":{"coordinates":[34.75,135.44], "name" : "police", "radius":"20"}}
 ]}
