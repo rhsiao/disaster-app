@@ -8,13 +8,22 @@ function addCSS( url, callback ) {
     fileref.setAttribute("href", url);
     document.head.appendChild( fileref );
 };
+function toggle(obj){
+    var el = document.getElementById(obj);
+    if (el.style.display != 'none' ) {
+        el.style.display = 'none';
+    }
+    else {
+        el.style.display = '';
+    }
+}
 
 var disaster = SAGE2_App.extend({
     //master node reading data
     getNewData: function(meSelf){
         if(isMaster){
             d3.json((this.resrcPath + "exampledata.json"), function(collection) {meSelf.dealWithData(collection);
-                                                           })
+                                                                                })
         }
     },
 
@@ -27,6 +36,8 @@ var disaster = SAGE2_App.extend({
         this.element.id = "Ediv";
         console.log(this.element.id); //testing if div id
         //background in the element
+        /*should convert deep pointer interactions to mouse events like mouse over, mouse button down, click, mouse button up.*/
+        
         this.backgroundDiv = document.createElement('div');
         this.backgroundDiv.id = 'background';
         this.backgroundDiv.style.width = '100%';
@@ -44,60 +55,112 @@ var disaster = SAGE2_App.extend({
         this.sidebarDiv = document.createElement('div');
         this.sidebarDiv.id = 'sidebar';
         this.backgroundDiv.appendChild(this.sidebarDiv);
+
         //lists
         this.uoList = document.createElement("ul");
         this.sidebarDiv.appendChild(this.uoList);
         this.infraList = document.createElement("li");
-        this.infraList.id = "list";
+        //this.infraList.id = "list1";
+        this.infraList.className = "list"
         this.uoList.appendChild(this.infraList);
         this.infraList.innerHTML = "Infrastructures List";
-            this.infraList1 = document.createElement("li");
-            this.infraList.appendChild(this.infraList1);
-            this.infraList1.innerHTML = "Power";
-            this.infraList1.id = "list_sub"
-            this.infraList2 = document.createElement("li");
-            this.infraList.appendChild(this.infraList2);
-            this.infraList2.innerHTML = "Transportation";
-            this.infraList2.id = "list_sub"
-            this.infraList3 = document.createElement("li");
-            this.infraList.appendChild(this.infraList3);
-            this.infraList3.innerHTML = "Water";
-            this.infraList3.id = "list_sub"
-            this.infraList4 = document.createElement("li");
-            this.infraList.appendChild(this.infraList4);
-            this.infraList4.innerHTML = "Gas";
-            this.infraList4.id = "list_sub"
+        this.infraList1 = document.createElement("li");
+        this.infraList.appendChild(this.infraList1);
+        this.infraList1.innerHTML = "Power";
+        this.infraList1.className = "list_sub";
+        this.infraList1.id = "list1_1";
+
+        this.infraList2 = document.createElement("li");
+        this.infraList.appendChild(this.infraList2);
+        this.infraList2.innerHTML = "Transportation";
+        this.infraList2.className = "list_sub";
+        this.infraList2.id = 'list1_2'
+        this.infraList3 = document.createElement("li");
+        this.infraList.appendChild(this.infraList3);
+        this.infraList3.innerHTML = "Water";
+        this.infraList3.className = "list_sub"
+        this.infraList3.id = 'list1_3';
+        this.infraList4 = document.createElement("li");
+        this.infraList.appendChild(this.infraList4);
+        this.infraList4.innerHTML = "Gas";
+        this.infraList4.className = "list_sub";
+        this.infraList4.id = 'list1_4'
         this.hazardList = document.createElement("li");
-        this.hazardList.id = "list";
+        this.hazardList.id = "list2";
+        this.hazardList.className = "list"
         this.hazardList.innerHTML = "Hazards List";
-            this.hazardList1 = document.createElement("li");
-            this.hazardList.appendChild(this.hazardList1);
-            this.hazardList1.innerHTML = "Fire";
-            this.hazardList1.id = "list_sub"
-            this.hazardList2 = document.createElement("li");
-            this.hazardList.appendChild(this.hazardList2);
-            this.hazardList2.innerHTML = "Flood/Storm";                 this.hazardList2.id = "list_sub";
-            this.hazardList3 = document.createElement("li");
-            this.hazardList.appendChild(this.hazardList3);
-            this.hazardList3.innerHTML = "Earthquake";
-            this.hazardList3.id = "list_sub";
+        this.hazardList1 = document.createElement("li");
+        this.hazardList1.id = 'list2_1';
+        this.hazardList.appendChild(this.hazardList1);
+        this.hazardList1.innerHTML = "Fire";
+        this.hazardList1.className = "list_sub";
+        this.hazardList1.onclick = function(){isFire =toggleFlag(this.id,isFire);console.log(isFire);};
+        this.hazardList1.onmouseover=function(){opacity = 0.1};
+        this.hazardList2 = document.createElement("li");
+        this.hazardList.appendChild(this.hazardList2);
+        this.hazardList2.innerHTML = "Flood/Storm";    
+        this.hazardList2.id = 'list2_2';
+        this.hazardList2.className = "list_sub";
+        this.hazardList2.onclick = function(){isFlood = toggleFlag(this.id, isFlood);console.log(isFire);};
+        this.hazardList3 = document.createElement("li");
+        this.hazardList.appendChild(this.hazardList3);
+        this.hazardList3.innerHTML = "Earthquake";
+        this.hazardList3.className = "list_sub";
+        this.hazardList3.id = 'list2_3';
+        this.hazardList3.onclick = function(){isEQ =toggleFlag(this.id,isEQ);console.log(isEQ);};
+        // this.hazardList.onclick = function(){toggleList(this.id);};
         this.uoList.appendChild(this.hazardList);
         this.healthList = document.createElement("li");
-        this.healthList.id = "list";
+        this.healthList.id = "list3";
         this.healthList.innerHTML = "Health&Safety List";
+        this.healthList.className = "list";
         this.uoList.appendChild(this.healthList);
-            this.healthList1 = document.createElement("li");
-            this.healthList.appendChild(this.healthList1);
-            this.healthList1.innerHTML = "Hospital";
-            this.healthList1.id = "list_sub"
-            this.healthList2 = document.createElement("li");
-            this.healthList.appendChild(this.healthList2);
-            this.healthList2.innerHTML = "Police Department";
-            this.healthList2.id = "list_sub";
-            this.healthList3 = document.createElement("li");
-            this.healthList.appendChild(this.healthList3);
-            this.healthList3.innerHTML = "Fire Station";
-            this.healthList3.id = "list_sub";
+        this.healthList1 = document.createElement("li");
+        this.healthList.appendChild(this.healthList1);
+        this.healthList1.innerHTML = "Hospital";
+        this.healthList1.className = "list_sub";
+        this.healthList1.id = 'list3_1';
+        this.healthList1.onclick = function(){isHospital =toggleFlag(this.id,isHospital);console.log(isHospital);};
+        this.healthList2 = document.createElement("li");
+        this.healthList.appendChild(this.healthList2);
+        this.healthList2.innerHTML = "Police Department";
+        this.healthList2.className = "list_sub";
+        this.healthList2.id = 'list3_2';
+        this.healthList2.onclick = function(){isPolice =toggleFlag(this.id,isPolice);console.log(isPolice);};
+        this.healthList3 = document.createElement("li");
+        this.healthList.appendChild(this.healthList3);
+        this.healthList3.innerHTML = "Fire Station";
+        this.healthList3.className = "list_sub";
+        this.healthList3.id = 'list3_3';
+        this.healthList3.onclick = function(){isFireSt =toggleFlag(this.id,isFireSt);console.log(isFireSt);};
+        //initializing toggle variable flags
+        var Me = this;
+        var isPolice = true;
+        var isFireSt = true;
+        var isHospital = true;
+        var isFire = true;
+        var isFlood = true;
+        var isStorm = true;
+        var isEQ = true;
+        //this is a sample toggle function to see if it works
+        function toggleList(btId){
+            if (Me.hazardList.className === 'list'+" "+'list2') {Me.hazardList.className = "list";console.log(Me.hazardList.className)}
+            else{
+                Me.hazardList.className = 'list'+" "+ 'list2';console.log(Me.hazardList.className);
+            };
+        };
+        //toggle function to change toggle variable flags
+        function toggleFlag(btId, btFlag){
+            if (btFlag === true) {
+                document.getElementById(btId).className = "list_sub" + " " + "red";}
+            else{
+                document.getElementById(btId).className = "list_sub" + " " + "green";}
+            return !btFlag;
+
+        };
+
+        //end of UI
+        //initializing parameters
         //need to set this to be true in order to tell SAGE2 that you will be needing Widget Controls
         this.enableControls = true;
         //SAGE 2 interaction
@@ -135,7 +198,7 @@ var disaster = SAGE2_App.extend({
             mySelf.getNewData(mySelf);
 
             // attach SVG into this.element node
-            var box = "0,0,"+width+","+height;
+            var box = "0,0,"+width*0.70+","+height;
             mySelf.svg = d3.select(mySelf.element).append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -143,44 +206,45 @@ var disaster = SAGE2_App.extend({
         })
 
 
-    ;
-    //adding the controls for the widget
-    var zoominButton={
-    "textual":true,
-    "label":"+",
-    "fill":"rgba(255,255,255,0.8)",
-    "animation":false
-};
-                                var zoomoutButton={
-                                "textual":true,
-                                "label":"-",
-                                "fill":"rgba(255,255,255,0.8)",
-                                "animation":false
-                                };
-                                //type is appearance, sequence is position on dial, id is association for function
-                                this.controls.addButton({type:zoominButton, sequenceNo:5, id:"ZoomIn"});
-this.controls.addButton({type:zoomoutButton, sequenceNo:6, id:"ZoomOut"});
-this.controls.finishedAddingControls(); //important?
+        ;
+        //adding the controls for the widget
+        var zoominButton={
+            "textual":true,
+            "label":"+",
+            "fill":"rgba(255,255,255,0.8)",
+            "animation":false
+        };
+        var zoomoutButton={
+            "textual":true,
+            "label":"-",
+            "fill":"rgba(255,255,255,0.8)",
+            "animation":false
+        };
+        //type is appearance, sequence is position on dial, id is association for function
+        this.controls.addButton({type:zoominButton, sequenceNo:5, id:"ZoomIn"});
+        this.controls.addButton({type:zoomoutButton, sequenceNo:6, id:"ZoomOut"});
+        this.controls.finishedAddingControls(); //important?
 
-},
+    },
 
     //stuff
     dealWithData: function(collection, today)
-{
-    this.broadcast("dealWithDataNode", {collection: collection, today:today});
-},
+    {
+        this.broadcast("dealWithDataNode", {collection: collection, today:today});
+    },
     dealWithDataNode: function(data){
         var collection = data.collection;
         var today = new Date();
         collection.objects.forEach(function(d){
+            //this if statement checks if x,y coordinates exists and sorts the Event between colors
             if(d.circle.coordinates[0] && d.circle.coordinates[1]){
                 if (isNaN(d.circle.coordinates[0]))
                 {console.log("latitude is not a #")};
                 if (isNaN(d.circle.coordinates[1]))
                 {console.log("longitude is not a #")};
-            d.LatLng = new L.LatLng(d.circle.coordinates[0], d.circle.coordinates[1]);
-            console.log("if case ran, new LatLng is set properly");
-            d.name = d.circle.name;
+                d.LatLng = new L.LatLng(d.circle.coordinates[0], d.circle.coordinates[1]);
+                console.log("if case ran, new LatLng is set properly");
+                d.name = d.circle.name;
                 switch(d.circle.name){
                     case "fire":
                         d.color = "red"; break;
@@ -192,11 +256,11 @@ this.controls.finishedAddingControls(); //important?
                         d.color = "brown"; break;
                     case "police":
                         d.color = "DarkMagenta"; break;
-            }}
+                }}
             else
             {d.LatLng = new L.LatLng(0,0);
              /*Add a LatLng object to each item in the dataset*/
-            console.log("else case ran. LongLat unsuccessful");}
+             console.log("else case ran. LongLat unsuccessful");}
         });
 
         var me = this;
@@ -208,18 +272,18 @@ this.controls.finishedAddingControls(); //important?
         .style("opacity", 0.8)
         .style("fill", function(d){ return d.color;})
         .style("r", 12);
-        
+
         var feature2 = this.g.selectAll("text")
         .data(collection.objects)
         .enter()
-            .append("text")
-            .style("fill", "white")
-            .style("stroke", "black")
-            .style("font-size", "20px")
-            .style("font-family", "Arial")
-            .style("text-anchor", "middle")
-            .style("stroke-width", "1")
-            .text(function(d){ return d.name;});
+        .append("text")
+        .style("fill", "white")
+        .style("stroke", "black")
+        .style("font-size", "20px")
+        .style("font-family", "Arial")
+        .style("text-anchor", "middle")
+        .style("stroke-width", "1")
+        .text(function(d){ return d.name;});
         /*makes sure that when our view of what we’re looking at changes (we zoom or pan) that our d3 elements change as well;*/
         this.map.on("viewreset", update);
         update();
@@ -236,24 +300,24 @@ this.controls.finishedAddingControls(); //important?
                           function(d){
                 return "translate(" +
                     (me.map.latLngToLayerPoint(d.LatLng).x) +","+ 
-                     (me.map.latLngToLayerPoint(d.LatLng).y) +")";
+                    (me.map.latLngToLayerPoint(d.LatLng).y) +")";
             }
-                          );
-            
+                         );
+
         }
         this.allLoaded = 1;
     },
-        
 
-ZoomIn: function(date){
-    var z = this.map.getZoom();
-    if (z <= 19)
-    {
-        this.map.setZoom(z+1, {animate:false});
-    }
-    this.lastZoom = date;
-    var z2 = this.map.getZoom();
-},
+
+    ZoomIn: function(date){
+        var z = this.map.getZoom();
+        if (z <= 19)
+        {
+            this.map.setZoom(z+1, {animate:false});
+        }
+        this.lastZoom = date;
+        var z2 = this.map.getZoom();
+    },
 
     ZoomOut: function(date){
         var z = this.map.getZoom();
@@ -263,59 +327,59 @@ ZoomIn: function(date){
         }
     },
 
-        load: function(date) {
-            this.refresh(date);
-        },
+    load: function(date) {
+        this.refresh(date);
+    },
 
-            draw: function(date) {
-            },
+    draw: function(date) {
+    },
 
-                resize: function(date) {
+    resize: function(date) {
 
 
 
-                    this.refresh(date);
-                },
+        this.refresh(date);
+    },
 
-                    event: function (eventType, pos, user, data, date) {
-                        if (eventType === "pointerPress" && (data.button ==='left') ) {
-                            this.dragging = true;
-                            this.position.x = pos.x;
-                            this.position.y = pos.y;
-                        }
-                        else if (eventType === "pointerMove" && this.dragging) {
-                            //animation is off or else pan stutters
-                            this.map.panBy([this.position.x - pos.x, this.position.y - pos.y], {animate: false});
-                            this.position.x = pos.x;
-                            this.position.y = pos.y;
-                        }
-                        else if (eventType === "pointerRelease" && (data.button === 'left') ) {
-                            this.dragging = false;
-                            this.position.x = pos.x;
-                            this.position.y = pos.y;
-                        }
-                        //widget button events
-                        else if(eventType === "widgetEvent"){
-                            switch(data.ctrlId){
-                                case "ZoomIn":
-                                    this.ZoomIn(date);
-                                    console.log("We're ZOOMING");
-                                    break;
-                                case "ZoomOut":
-                                    this.ZoomOut(date);
-                                    console.log("We're not ZOOMING");
-                                    break;
-                                default:
-                                    console.log("No handler for:", data.ctrlId);
-                                    return;
-                            }
-                        }
+    event: function (eventType, pos, user, data, date) {
+            if (eventType === "pointerPress" && (data.button ==='left') ) {
+            this.dragging = true;
+            this.position.x = pos.x;
+            this.position.y = pos.y;
+        }
+        else if (eventType === "pointerMove" && this.dragging) {
+            //animation is off or else pan stutters
+            this.map.panBy([this.position.x - pos.x, this.position.y - pos.y], {animate: false});
+            this.position.x = pos.x;
+            this.position.y = pos.y;
+        }
+        else if (eventType === "pointerRelease" && (data.button === 'left') ) {
+            this.dragging = false;
+            this.position.x = pos.x;
+            this.position.y = pos.y;
+        }
+        //widget button events
+        else if(eventType === "widgetEvent"){
+            switch(data.ctrlId){
+                case "ZoomIn":
+                    this.ZoomIn(date);
+                    console.log("We're ZOOMING");
+                    break;
+                case "ZoomOut":
+                    this.ZoomOut(date);
+                    console.log("We're not ZOOMING");
+                    break;
+                default:
+                    console.log("No handler for:", data.ctrlId);
+                    return;
+            }
+        }
+         //sagemep.processAndPassEvents( this.element.id, eventType, position, user_id, data, date );
+        this.refresh(date);
+    },
 
-                        this.refresh(date);
-                    },
-
-                        quit: function() {
-                            this.log("Done");
-                        }
+    quit: function() {
+        this.log("Done");
+    }
 
 });

@@ -5,7 +5,7 @@
     background-color:black;
     position:absolute;
 }
-#list {margin-left:25px;
+.list {margin-left:20px;
     color: rgba(255,255,255,0.8);
     font-family: "Ubuntu", sans-serif;
     font-size: 20px;
@@ -13,14 +13,38 @@
     list-style-type:none;
     padding-bottom: 75px;
 }
-#list_sub {margin-left:25px;
+.list2{margin-left:25px;
     color: rgba(255,255,255,0.8);
+    font-family: "Ubuntu", sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    list-style-type:none;
+    padding-bottom: 75px;
+    text-decoration: underline;
+    color:blue;
+}
+.list_sub {margin-left:15px;
+    color: rgba(0,255,0,0.8);
     font-family: "Ubuntu", sans-serif;
     font-size: 15px;
     list-style-type: circle;
     padding-bottom: 5px;
+    margin-right: 5px;
     font-weight: normal;
+    text-decoration: underline;
+    border-style:groove;
+    border-color : rgba(0,255,0,0.8);
+    text-align:center;
+    list-style: none;
 }
+.red{
+    color:red;
+    border-color:red;
+}
+.green{
+    color:rgba(0,255,0,0.8);
+}
+
 
 
     
