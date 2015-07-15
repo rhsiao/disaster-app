@@ -16,16 +16,45 @@ function toggle(obj){
     else {
         el.style.display = '';
     }
-}
+};
+
 
 var disaster = SAGE2_App.extend({
     //master node reading data
     getNewData: function(meSelf){
-        if(isMaster){
-            d3.json((this.resrcPath + "exampledata.json"), function(collection) {meSelf.dealWithData(collection);
-                                                                                })
-        }
+        if(isMaster){console.log(this.leafletDiv.appId);
+                     console.log(meSelf.leafletDiv.appId);
+                     this.dealWithDataFunc = this.dealWithData.bind(this);
+                     d3.json((this.resrcPath + "exampledata.json"), function(collection) {meSelf.dealWithDataFunc(collection);                                                              })
+                    }
     },
+
+    /////////////////////////////////////////////
+    switchToggle: function(nameofinterest)
+    {
+        var selectedOnes = null;
+        selectedOnes = d3.selectAll('#' + this.leafletDiv.appId + "_" + nameofinterest);
+        if(selectedOnes.style("visibility") === ("visible")){
+            selectedOnes.style("visibility", "hidden");
+            console.log("if case passed for switch police");}
+        else{
+            selectedOnes.style("visibility", "visible"); console.log("else case passed for switch police");
+        }
+        console.log("toggle for switchpolice works");
+    },
+    switchFire: function()
+    {
+        var selectedOnes = null;
+        selectedOnes = d3.selectAll('#' + this.leafletDiv.appId + "_" + "fire");
+        if(selectedOnes.style("visibility") === ("visible")){
+            selectedOnes.style("visibility", "hidden");
+            console.log("if case passed for switch fire");}
+        else{
+            selectedOnes.style("visibility", "visible"); console.log("else case passed for switch fire");
+        }
+        console.log("toggle for fire works");
+    },
+    //////////////////////////////////////////////  
 
     init: function(data) {
         this.SAGE2Init("div", data);
@@ -33,11 +62,13 @@ var disaster = SAGE2_App.extend({
         addCSS(this.resrcPath + "scripts/styles.css", null);
         console.log(data.id);
         console.log(this.element.id);
-        this.element.id = "Ediv";
+        this.element.id = "div" + data.id;
         console.log(this.element.id); //testing if div id
         //background in the element
         /*should convert deep pointer interactions to mouse events like mouse over, mouse button down, click, mouse button up.*/
-        
+        var Me = this;
+        /////////////////////////////////////////////
+
         this.backgroundDiv = document.createElement('div');
         this.backgroundDiv.id = 'background';
         this.backgroundDiv.style.width = '100%';
@@ -51,10 +82,14 @@ var disaster = SAGE2_App.extend({
         this.leafletDiv.style.height = '100%';
         this.leafletDiv.style.position = 'absolute';
         this.backgroundDiv.appendChild(this.leafletDiv);
+        this.leafletDiv.appId = "";
+        this.leafletDiv.appId = this.element.id;
         //div to hold sidebar
         this.sidebarDiv = document.createElement('div');
         this.sidebarDiv.id = 'sidebar';
         this.backgroundDiv.appendChild(this.sidebarDiv);
+
+        /////////////////////////////////////////////
 
         //lists
         this.uoList = document.createElement("ul");
@@ -94,20 +129,20 @@ var disaster = SAGE2_App.extend({
         this.hazardList.appendChild(this.hazardList1);
         this.hazardList1.innerHTML = "Fire";
         this.hazardList1.className = "list_sub";
-        this.hazardList1.onclick = function(){isFire =toggleFlag(this.id,isFire);console.log(isFire);};
+        this.hazardList1.onclick = function(){isFire =toggleFlag(this.id,isFire);console.log(isFire);Me.switchToggle("fire");};
         this.hazardList1.onmouseover=function(){opacity = 0.1};
         this.hazardList2 = document.createElement("li");
         this.hazardList.appendChild(this.hazardList2);
-        this.hazardList2.innerHTML = "Flood/Storm";    
+        this.hazardList2.innerHTML = "Flood";    
         this.hazardList2.id = 'list2_2';
         this.hazardList2.className = "list_sub";
-        this.hazardList2.onclick = function(){isFlood = toggleFlag(this.id, isFlood);console.log(isFire);};
+        this.hazardList2.onclick = function(){isFlood = toggleFlag(this.id, isFlood);console.log(isFlood);Me.switchToggle("flood");};
         this.hazardList3 = document.createElement("li");
         this.hazardList.appendChild(this.hazardList3);
         this.hazardList3.innerHTML = "Earthquake";
         this.hazardList3.className = "list_sub";
         this.hazardList3.id = 'list2_3';
-        this.hazardList3.onclick = function(){isEQ =toggleFlag(this.id,isEQ);console.log(isEQ);};
+        this.hazardList3.onclick = function(){isEQ =toggleFlag(this.id,isEQ);console.log(isEQ);Me.switchToggle("earthquake");};
         // this.hazardList.onclick = function(){toggleList(this.id);};
         this.uoList.appendChild(this.hazardList);
         this.healthList = document.createElement("li");
@@ -120,28 +155,43 @@ var disaster = SAGE2_App.extend({
         this.healthList1.innerHTML = "Hospital";
         this.healthList1.className = "list_sub";
         this.healthList1.id = 'list3_1';
-        this.healthList1.onclick = function(){isHospital =toggleFlag(this.id,isHospital);console.log(isHospital);};
+        this.healthList1.onclick = function(){isHospital =toggleFlag(this.id,isHospital);console.log(isHospital);Me.switchToggle("hospital");};
         this.healthList2 = document.createElement("li");
         this.healthList.appendChild(this.healthList2);
         this.healthList2.innerHTML = "Police Department";
         this.healthList2.className = "list_sub";
         this.healthList2.id = 'list3_2';
-        this.healthList2.onclick = function(){isPolice =toggleFlag(this.id,isPolice);console.log(isPolice);};
+        this.healthList2.onclick = function(){isPolice =toggleFlag(this.id,isPolice);console.log(isPolice);Me.switchToggle("police");};
         this.healthList3 = document.createElement("li");
         this.healthList.appendChild(this.healthList3);
         this.healthList3.innerHTML = "Fire Station";
         this.healthList3.className = "list_sub";
         this.healthList3.id = 'list3_3';
-        this.healthList3.onclick = function(){isFireSt =toggleFlag(this.id,isFireSt);console.log(isFireSt);};
+        this.healthList3.onclick = function(){isFireSt =toggleFlag(this.id,isFireSt);console.log(isFireSt);Me.switchToggle("FireSt");};
+
+        /////////////////////////////////////////////
+
         //initializing toggle variable flags
-        var Me = this;
-        var isPolice = true;
-        var isFireSt = true;
-        var isHospital = true;
-        var isFire = true;
-        var isFlood = true;
-        var isStorm = true;
-        var isEQ = true;
+
+        var isPolice = false;
+        var isFireSt = false;
+        var isHospital = false;
+        var isFire = false;
+        var isFlood = false;
+        var isStorm = false;
+        var isEQ = false;
+
+        /////////////////////////////////////////////
+
+        /*for making the hover effects*/
+        var lists = document.getElementsByClassName('list_sub');
+        for (i in lists){
+            lists[i].onmouseover=function (event){this.style.opacity = 1};
+            lists[i].onmouseout=function (event){this.style.opacity = 0.7};
+        };
+
+        /////////////////////////////////////////////
+
         //this is a sample toggle function to see if it works
         function toggleList(btId){
             if (Me.hazardList.className === 'list'+" "+'list2') {Me.hazardList.className = "list";console.log(Me.hazardList.className)}
@@ -159,7 +209,12 @@ var disaster = SAGE2_App.extend({
 
         };
 
+
+
         //end of UI
+
+        /////////////////////////////////////////////
+
         //initializing parameters
         //need to set this to be true in order to tell SAGE2 that you will be needing Widget Controls
         this.enableControls = true;
@@ -185,7 +240,7 @@ var disaster = SAGE2_App.extend({
             mySelf.mapTile = L.tileLayer(mapURL, {
                 attribution:mapCopyright});
             mySelf.map = L.map(mySelf.leafletDiv.id,{
-                layers:[mySelf.mapTile], zoomControl:                         false}).setView([34.7042, 135.494], 11);        console.log(data.id);
+                layers:[mySelf.mapTile], zoomControl:                         true}).setView([34.7042, 135.494], 11);        console.log(data.id);
 
             /*initalize the SVG layer*/
             mySelf.map._initPathRoot();
@@ -195,6 +250,7 @@ var disaster = SAGE2_App.extend({
             /*g element that ensures that the SVG element and the Leaflet layer have the same common point of reference*/
             mySelf.g = mySelf.svg.append("g");
             console.log('line 93 reached. Past mySelf.svg.append');
+            mySelf.getNewDataFunc = mySelf.getNewData.bind(this);
             mySelf.getNewData(mySelf);
 
             // attach SVG into this.element node
@@ -220,19 +276,29 @@ var disaster = SAGE2_App.extend({
             "fill":"rgba(255,255,255,0.8)",
             "animation":false
         };
+        var policeButton = {
+            "textual":true,
+            "label":"Police",
+            "fill":"rgba(255,255,255,0.8)",
+            "animation":false
+        };
         //type is appearance, sequence is position on dial, id is association for function
         this.controls.addButton({type:zoominButton, sequenceNo:5, id:"ZoomIn"});
         this.controls.addButton({type:zoomoutButton, sequenceNo:6, id:"ZoomOut"});
+        this.controls.addButton({type:policeButton, sequenceNo:8, id:"Police"});
         this.controls.finishedAddingControls(); //important?
 
     },
 
     //stuff
     dealWithData: function(collection, today)
-    {
-        this.broadcast("dealWithDataNode", {collection: collection, today:today});
+    {console.log(this.leafletDiv.appId);
+     this.dealWithDataNodeFunc = this.dealWithDataNode.bind(this);
+     this.broadcast("dealWithDataNode", {collection: collection, today:today});
     },
     dealWithDataNode: function(data){
+        console.log(this.leafletDiv.appId);
+        var me = this;
         var collection = data.collection;
         var today = new Date();
         collection.objects.forEach(function(d){
@@ -256,7 +322,15 @@ var disaster = SAGE2_App.extend({
                         d.color = "brown"; break;
                     case "police":
                         d.color = "DarkMagenta"; break;
-                }}
+
+                }
+                d.radius = d.circle.r;
+                console.log(me.leafletDiv.appId);
+                var myName = me.leafletDiv.appId;
+                console.log(myName);
+                d.id = myName + "_" + d.name;
+                console.log(d.id);
+            }
             else
             {d.LatLng = new L.LatLng(0,0);
              /*Add a LatLng object to each item in the dataset*/
@@ -264,15 +338,17 @@ var disaster = SAGE2_App.extend({
         });
 
         var me = this;
+
         var feature = this.g.selectAll("circle")
         .data(collection.objects)
         .enter()
         .append("circle")
         .style('stroke', 'black')
         .style("opacity", 0.8)
+        .attr("id", function(d){ return d.id;})
         .style("fill", function(d){ return d.color;})
-        .style("r", 12);
-
+        .style("r", function(d){ return d.radius;})
+        .style("visibility", "hidden");
         var feature2 = this.g.selectAll("text")
         .data(collection.objects)
         .enter()
@@ -283,6 +359,8 @@ var disaster = SAGE2_App.extend({
         .style("font-family", "Arial")
         .style("text-anchor", "middle")
         .style("stroke-width", "1")
+        .style("visibility", "hidden")
+        .attr("id", function(d){return d.id;})
         .text(function(d){ return d.name;});
         /*makes sure that when our view of what we’re looking at changes (we zoom or pan) that our d3 elements change as well;*/
         this.map.on("viewreset", update);
@@ -308,6 +386,7 @@ var disaster = SAGE2_App.extend({
         this.allLoaded = 1;
     },
 
+    ////////////////////////////////
 
     ZoomIn: function(date){
         var z = this.map.getZoom();
@@ -319,6 +398,8 @@ var disaster = SAGE2_App.extend({
         var z2 = this.map.getZoom();
     },
 
+    ////////////////////////////////////
+
     ZoomOut: function(date){
         var z = this.map.getZoom();
         if (z >= 3)
@@ -326,6 +407,9 @@ var disaster = SAGE2_App.extend({
             this.map.setZoom(z-1, {animate:false});
         }
     },
+
+    /////////////////////////////////////
+
 
     load: function(date) {
         this.refresh(date);
@@ -342,24 +426,25 @@ var disaster = SAGE2_App.extend({
     },
 
     event: function (eventType, pos, user, data, date) {
-            if (eventType === "pointerPress" && (data.button ==='left') ) {
-            this.dragging = true;
-            this.position.x = pos.x;
-            this.position.y = pos.y;
-        }
-        else if (eventType === "pointerMove" && this.dragging) {
-            //animation is off or else pan stutters
-            this.map.panBy([this.position.x - pos.x, this.position.y - pos.y], {animate: false});
-            this.position.x = pos.x;
-            this.position.y = pos.y;
-        }
-        else if (eventType === "pointerRelease" && (data.button === 'left') ) {
-            this.dragging = false;
-            this.position.x = pos.x;
-            this.position.y = pos.y;
-        }
+        //this was removed because of the addition of deep interactions using sagemep.processAndPassEvents, which allows us to directly click on the map 
+        //  if (eventType === "pointerPress" && (data.button ==='left') ) {
+        //  this.dragging = true;
+        // this.position.x = pos.x;
+        //  this.position.y = pos.y;
+        //   }
+        //   if (eventType === "pointerMove" && this.dragging) {
+        //animation is off or else pan stutters
+        //     this.map.panBy([this.position.x - pos.x, this.position.y - pos.y], {animate: false});
+        //    this.position.x = pos.x;
+        //  this.position.y = pos.y;
+        //    }
+        //if (eventType === "pointerRelease" && (data.button === 'left') ) {
+        //  this.dragging = false;
+        //this.position.x = pos.x;
+        //this.position.y = pos.y;
+        //}
         //widget button events
-        else if(eventType === "widgetEvent"){
+        if(eventType === "widgetEvent"){
             switch(data.ctrlId){
                 case "ZoomIn":
                     this.ZoomIn(date);
@@ -369,13 +454,19 @@ var disaster = SAGE2_App.extend({
                     this.ZoomOut(date);
                     console.log("We're not ZOOMING");
                     break;
+                case "Police":
+                    console.log(this);
+                    this.switchToggle("police");
+                    this.refresh(Date);
+                    break;
                 default:
                     console.log("No handler for:", data.ctrlId);
                     return;
             }
         }
-         //sagemep.processAndPassEvents( this.element.id, eventType, position, user_id, data, date );
+
         this.refresh(date);
+        sagemep.processAndPassEvents( this.element.id, eventType, pos, user, data, date );
     },
 
     quit: function() {

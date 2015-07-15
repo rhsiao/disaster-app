@@ -1,8 +1,45 @@
-{"objects":[
-{"circle":{"coordinates":[34.704,135.52], "name" :  "fire", "radius": "15"}},
-{"circle":{"coordinates":[34.68,135.476], "name": "storm", "radius": "30"}},
-{"circle":{"coordinates":[34.704,135.45], "name" : "flood", "radius": "25"}},
-{"circle":{"coordinates":[34.73,135.40], "name" : "fire", "radius":"5"}},
-{"circle":{"coordinates":[34.65,135.54], "name" : "earthquake", "radius":"20"}},
-{"circle":{"coordinates":[34.75,135.44], "name" : "police", "radius":"20"}}
+{
+    "objects":[
+    {
+        "circle":
+     {
+         "coordinates":[34.704,135.494], 
+         "name" :  "fire", "r": 15}},
+    {
+        "circle":
+     {
+         "coordinates":[34.68,135.476],
+         "name": "flood", "r": 30}},
+    {
+        "circle":
+     {
+         "coordinates":[34.704,135.45], 
+         "name" : "flood", "r": 25}},
+    {
+        "circle":
+     {
+         "coordinates":[34.73,135.40],
+         "name" : "fire", "r":5}},
+    {
+        "circle":
+     {
+         "coordinates":[34.65,135.54],
+         "name" : "earthquake", "r":20}},
+    {
+        "circle":
+     {
+         "coordinates":[34.75,135.44],
+         "name" : "police", "r":20}},
+    {
+        "circle":
+     {
+         "coordinates":[34.85,135.34],
+         "name" : "hospital", "r":10}},
+    {
+        "circle":
+     {
+         "coordinates":[34.73,135.34],
+         "name" : "FireSt", "r":10}}
+        
+        
 ]}
